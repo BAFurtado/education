@@ -8,12 +8,16 @@ class Institutions:
         self.id = id_
         self.places = 0
         self.balance = 0
+        self.studying = list()
 
-    def receive(self, amount):
+    def deposit(self, amount):
         self.balance += amount
 
     def open_places(self, amount):
         self.places += amount
+
+    def register(self, student):
+        self.studying.append(student)
 
 
 if __name__ == '__main__':
