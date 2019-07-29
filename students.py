@@ -5,7 +5,7 @@ class Citizens:
     def __init__(self, id_):
         self.id = id_
         self.graduate = False
-        self.age = random.randint(8, 28)
+        self.age = random.randint(0, 65)
         self.schooling = None
         self.ifes = None
         self.balance = 0

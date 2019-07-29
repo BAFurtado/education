@@ -48,7 +48,7 @@ def evolve(g, ins, std):
             if each.get_graduate() is True:
                 wage = parameters.min_wage * each.get_schooling()
                 each.income(wage)
-        # 5. Ifes collects payment
+        # 5. Ifes collect payment
                 ifs = each.get_ifes()
                 if each.get_debt() > 0:
                     max_payment = wage * parameters.ecr
@@ -61,8 +61,6 @@ def evolve(g, ins, std):
             # Update age
             each.update_age()
     return g, ins, std
-
-
 
 
 if __name__ == '__main__':
