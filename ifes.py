@@ -19,6 +19,9 @@ class Institutions:
     def register(self, student):
         self.studying.append(student)
 
+    def get_balance(self):
+        return self.balance
+
 
 if __name__ == '__main__':
     i = Institutions(0)

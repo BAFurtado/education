@@ -18,5 +18,6 @@ def produce_output(g, ins, st):
     print_parameters()
     print('---------------------------')
     print('Government balance is: ${}'.format(g.balance))
-    print('Median balance of students: ${:.2f}'.format(median([s.balance for s in st])))
-    print('Median balance of institutions: ${:.2f}'.format(median([i.balance for i in ins])))
+    print('Median balance of students: ${:.2f}'.format(median([s.get_balance() for s in st])))
+    print('Median debt of students: ${:.2f}'.format(median([s.get_debt() for s in st])))
+    print('Median balance of institutions: ${:.2f}'.format(median([i.get_balance() for i in ins])))

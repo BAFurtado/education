@@ -43,6 +43,9 @@ class Citizens:
     def get_debt(self):
         return self.debt
 
+    def get_balance(self):
+        return self.balance
+
     def get_schooling(self):
         return self.schooling
 

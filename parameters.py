@@ -8,5 +8,5 @@ grad_len = 4
 min_wage = 1
 
 # Percentual of wage transfer
-ecr = .05
+ecr = .005
 year_tuition = .1
