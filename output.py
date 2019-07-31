@@ -20,7 +20,7 @@ def produce_output(g, ins, st):
     print('Government balance is: ${}'.format(g.balance))
     print('Median wealth of citizens: ${:.2f}'.format(median([s.get_balance() for s in st])))
     print('Median wealth of graduates: ${:.2f}'.format(median([s.get_balance() for s in st if s.graduate])))
-    print('Median debt of students: ${:.2f}'.format(median([s.get_debt() for s in st])))
+    print('Median debt of students: ${:.2f}'.format(median([s.get_debt() for s in st if s.graduate])))
     print('Expected Median balance of institutions with Government transfer only: ${:.2f}'.format(parameters.period * parameters.transfer_amount))
     print('Median balance of institutions: ${:.2f}'.format(median([i.get_balance() for i in ins])))
     print('Graduated students in the economy: {}'.format(sum([s.graduate is True for s in st])))

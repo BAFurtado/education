@@ -42,22 +42,22 @@ def evolve(g, ins, std):
                 each.register(school, y)
         # 3. Students graduate
             if each.get_schooling() is not None:
-                if each.get_schooling() > parameters.grad_len:
-                    each.collate()
+                if each.get_graduate() is False:
+                    if each.get_schooling() > parameters.grad_len:
+                        each.collate()
         # 4. Students receive payment
-            if each.get_graduate() is True:
-                wage = parameters.min_wage * each.get_schooling()
-                each.income(wage)
+                else:
+                    each.income(each.get_wage())
         # 5. Ifes collect payment
-                ifs = each.get_ifes()
-                if each.get_debt() > 0:
-                    max_payment = wage * parameters.ecr
-                    if max_payment > each.get_debt():
-                        ifs.deposit(each.transfer(max_payment))
-                        each.pay_principal(max_payment)
-                    else:
-                        ifs.deposit(each.transfer(each.get_debt()))
-                        each.pay_principal(each.get_debt())
+                    ifs = each.get_ifes()
+                    if each.get_debt() > 0:
+                        max_payment = each.get_wage() * parameters.ecr
+                        if max_payment < each.get_debt():
+                            ifs.deposit(each.transfer(max_payment))
+                            each.pay_principal(max_payment)
+                        else:
+                            ifs.deposit(each.transfer(each.get_debt()))
+                            each.pay_principal(each.get_debt())
             # Update age
             each.update_age()
     return g, ins, std

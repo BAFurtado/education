@@ -1,5 +1,7 @@
 import random
 
+from parameters import min_wage
+
 
 class Citizens:
     def __init__(self, id_):
@@ -10,6 +12,7 @@ class Citizens:
         self.ifes = None
         self.balance = 0
         self.debt = 0
+        self.wage = random.betavariate(1, 8) * min_wage
 
     def collate(self):
         self.graduate = True
@@ -54,6 +57,9 @@ class Citizens:
 
     def get_ifes(self):
         return self.ifes
+
+    def get_wage(self):
+        return self.wage
 
     def __str__(self):
         return 'Student {}. Age {}. Graduate: {}'.format(self.id, self.age, self.graduate)
