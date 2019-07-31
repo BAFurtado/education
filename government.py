@@ -7,7 +7,7 @@ class Government:
 
     def __init__(self):
         self.id = 0
-        self.balance = 10000
+        self.balance = 0
 
     def transfer(self, amount, recipient):
         self.balance -= amount
