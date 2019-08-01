@@ -23,6 +23,12 @@ class Institutions:
     def get_balance(self):
         return self.balance
 
+    def is_registered(self, student):
+        if student in self.studying:
+            return True
+        else:
+            return False
+
     def check_place(self):
         if len(self.studying) < self.places:
             return True

@@ -58,7 +58,8 @@ def evolve(g, ins, std):
             # If registered, updated debt and years of study
             if each.get_ifes() is not None:
                 each.update_schooling()
-                each.update_debt(parameters.year_tuition)
+                if each.get_ifes().is_registered(each):
+                    each.update_debt(parameters.year_tuition)
             # 1. Students enter school
             # TODO: Change citizens to generators, immediately before entereing school.
             #  a quarter of places untile year 4 and num_places henceforth
