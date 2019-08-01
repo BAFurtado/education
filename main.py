@@ -5,6 +5,7 @@ from ifes import Institutions
 from students import Citizens
 import output
 import parameters
+import ecr
 
 
 def loop(agent, n):
@@ -32,7 +33,7 @@ def gov_transfers(g, ins):
 def pay_tuition(s):
     ifs = s.get_ifes()
     if s.get_debt() > 0:
-        max_payment = s.get_wage() * parameters.ecr
+        max_payment = ecr.calculate_ecr_max(s.get_wage())
         if max_payment < s.get_debt():
             ifs.deposit(s.transfer(max_payment))
             s.pay_principal(max_payment)
@@ -55,23 +56,23 @@ def evolve(g, ins, std):
 
         # Cycle over students
         for each in std:
-            # If registered, updated debt and years of study
-            if each.get_ifes() is not None:
-                each.update_schooling()
-                if each.get_ifes().is_registered(each):
-                    each.update_debt(parameters.year_tuition)
-            # 1. Students enter school
-            # TODO: Change citizens to generators, immediately before entereing school.
-            #  a quarter of places untile year 4 and num_places henceforth
+            # TODO: Change citizens to generators, immediately before entering school.
+            #  a quarter of places until year 4 and num_places henceforth
             # Estimated number of agents: 470 thousand
-            if (each.get_age() > 18 & each.get_age() < 30) & (each.get_ifes() is None):
+            if (each.get_age() > 18 & each.get_age() < 25) & (each.get_ifes() is None):
                 school = random.choice(ins)
                 if school.check_place():
                     school.register(each)
                     each.register(school, y)
+            # If registered, updated debt and years of study
+            if each.get_ifes() is not None:
+                each.update_schooling()
+                if each.get_ifes().is_registered(each):
+                    each.update_debt(each.get_ifes().get_tuition())
+            # 1. Students enter school
             # 2. Graduate students
             if each.get_graduate() is False and each.get_ifes() is not None:
-                if each.get_schooling() > parameters.grad_len:
+                if each.get_schooling() == parameters.grad_len:
                     each.collate()
                     # Deregister at school and open up place
                     each.get_ifes().deregister(each)

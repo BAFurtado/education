@@ -1,6 +1,6 @@
 import random
 
-from parameters import min_wage
+from parameters import avg_wage
 
 
 class Citizens:
@@ -12,7 +12,9 @@ class Citizens:
         self.ifes = None
         self.balance = 0
         self.debt = 0
-        self.wage = random.betavariate(1, 8) * min_wage
+        # Draw a number from Beta distribution to get a Gini distribution for Brazil
+        # Multiply by the inverse of the average of the Beta distribution to have an average mean
+        self.wage = random.betavariate(1, 8) * avg_wage * 1/.11
 
     def collate(self):
         self.graduate = True
@@ -62,7 +64,7 @@ class Citizens:
         return self.wage
 
     def __str__(self):
-        return 'Student {}. Age {}. Graduate: {}'.format(self.id, self.age, self.graduate)
+        return 'Student {}. Age {}. Graduate: {} Wage: {:,.2f}'.format(self.id, self.age, self.graduate, self.wage)
 
 
 if __name__ == '__main__':
