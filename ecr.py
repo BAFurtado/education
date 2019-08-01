@@ -26,5 +26,6 @@ def calculate_ecr_max(income, value=0):
 
 
 if __name__ == '__main__':
-    for i in range(10000, 300000, 20000):
-        print('Renda: {:,.0f}, ECR: {:,.0f}'.format(i, calculate_ecr_max(i)))
+    print(calculate_ecr_max(14000))
+    # for i in range(10000, 300000, 20000):
+    #     print('Renda: {:,.0f}, ECR: {:,.0f}'.format(i, calculate_ecr_max(i)))

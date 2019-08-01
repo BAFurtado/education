@@ -7,14 +7,14 @@ class Citizens:
     def __init__(self, id_):
         self.id = id_
         self.graduate = False
-        self.age = random.randint(0, 65)
+        self.age = 19
         self.schooling = None
         self.ifes = None
         self.balance = 0
         self.debt = 0
         # Draw a number from Beta distribution to get a Gini distribution for Brazil
         # Multiply by the inverse of the average of the Beta distribution to have an average mean
-        self.wage = random.betavariate(1, 8) * avg_wage * 1/.11
+        self.wage = random.betavariate(1, 8) * avg_wage * (1/.11)
 
     def collate(self):
         self.graduate = True

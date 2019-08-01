@@ -11,7 +11,7 @@ class Institutions:
         self.places = num_stds_per_ifes
         self.balance = 0
         self.studying = list()
-        self.tuition = normalvariate(50000, 10000)
+        self.tuition = normalvariate(50000, 10000) / 4
 
     def deposit(self, amount):
         self.balance += amount
