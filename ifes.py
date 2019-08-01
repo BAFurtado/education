@@ -19,6 +19,9 @@ class Institutions:
     def register(self, student):
         self.studying.append(student)
 
+    def num_students(self):
+        return len(self.studying)
+
     def deregister(self, student):
         self.studying.remove(student)
 

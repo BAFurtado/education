@@ -1,9 +1,10 @@
 
 
 transfer_amount_per_std = 37551
-period = 30
+period = 6
 num_ifes = 63
-num_stds_per_ifes = 483137 / num_ifes
-num_citizens = 20000  # 200000000 Two hundred million 3,367,172 (18 in 2010)
 grad_len = 4
+capacity_stds = 483137
+num_stds_per_year = int(capacity_stds / grad_len)
+num_stds_per_ifes = int(num_stds_per_year / num_ifes)
 avg_wage = 1373 * 12

@@ -7,7 +7,6 @@ def print_parameters():
     print('Amount transferred per year, per institution: {:,.0f}'.format(parameters.transfer_amount_per_std))
     print('Number of years simulation run: {}'.format(parameters.period))
     print('Number of institutions: {}'.format(parameters.num_ifes))
-    print('Number of citizens: {:,.0f}'.format(parameters.num_citizens))
     print('Length of years to graduate: {}'.format(parameters.grad_len))
     print('Average per capita wage ex-ante: {:,.0f}'.format(parameters.avg_wage))
 

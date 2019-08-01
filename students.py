@@ -42,6 +42,9 @@ class Citizens:
     def pay_principal(self, amount):
         self.debt -= amount
 
+    def set_debt(self):
+        self.debt = 0
+
     def get_age(self):
         return self.age
 

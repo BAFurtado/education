@@ -1,11 +1,15 @@
+import logging
 import random
 
+import ecr
+import output
+import parameters
 from government import Government
 from ifes import Institutions
 from students import Citizens
-import output
-import parameters
-import ecr
+
+logger = logging.getLogger('main')
+logging.basicConfig(level=logging.INFO)
 
 
 def loop(agent, n):
@@ -15,11 +19,16 @@ def loop(agent, n):
     return l
 
 
-def generate_agents(ni, ns):
+def generate_agents(ni):
     g = Government()
     inst = loop(Institutions, ni)
-    std = loop(Citizens, ns)
-    return g, inst, std
+    return g, inst
+
+
+def generate_std_candidates(size, lst):
+    for i in range(size):
+        lst.append(Citizens(i))
+    return lst
 
 
 def gov_transfers(g, ins):
@@ -40,6 +49,7 @@ def pay_tuition(s):
         else:
             ifs.deposit(s.transfer(s.get_debt()))
             s.pay_principal(s.get_debt())
+            s.set_debt()
 
 
 def evolve(g, ins, std):
@@ -47,6 +57,7 @@ def evolve(g, ins, std):
     """
     # Cycle over the years
     for y in range(parameters.period):
+        logger.info('Initiating year {}...'.format(y))
 
         # Government yearly transferes
         g, ins = gov_transfers(g, ins)
@@ -54,10 +65,20 @@ def evolve(g, ins, std):
         # Citizens get paid
         [i.income(i.get_wage()) for i in std]
 
+        # Generate students for a given year
+        # First 4 years populate the system
+        if y < 3:
+            logger.info('Generating {} students...'.format(parameters.num_stds_per_year))
+            std = generate_std_candidates(parameters.num_stds_per_year, std)
+        else:
+            num = sum([i.num_students() for i in ins])
+            size = parameters.capacity_stds - num
+            logger.info('Generating {} students...'.format(size))
+            std = generate_std_candidates(size, std)
+
         # Cycle over students
+        logger.info('Cycling over {} students...'.format(len(std)))
         for each in std:
-            # TODO: Change citizens to generators, immediately before entering school.
-            #  a quarter of places until year 4 and num_places henceforth
             # Estimated number of agents: 470 thousand
             if (each.get_age() > 18 & each.get_age() < 25) & (each.get_ifes() is None):
                 school = random.choice(ins)
@@ -85,10 +106,16 @@ def evolve(g, ins, std):
             if each.get_age() > 80:
                 if random.random() > .5:
                     std.remove(each)
+        # 4. Free students without debt
+        logger.info('Providing documentation for students who have paid their debts...')
+        debt_free = [s for s in std if s.get_ifes() is not None and s.get_debt() == 0]
+        for df in debt_free:
+            std.remove(df)
     return g, ins, std
 
 
 if __name__ == '__main__':
-    gov, insts, stds = generate_agents(parameters.num_ifes, parameters.num_citizens)
+    stds = list()
+    gov, insts = generate_agents(parameters.num_ifes)
     gov, insts, stds = evolve(gov, insts, stds)
     output.produce_output(gov, insts, stds)
