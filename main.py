@@ -113,6 +113,13 @@ def evolve(g, ins, std):
         debt_free = [s for s in std if s.get_ifes() is not None and s.get_debt() == 0]
         for df in debt_free:
             std.remove(df)
+
+        # 5. Update debts using interest rate
+        [s.debt_interest(parameters.interest_on_tuition + 1) for s in std]
+
+        # 6. Update wages using real interest
+        [s.wage_interest(parameters.real_interest_on_wages + 1) for s in std]
+
     return g, ins, std
 
 

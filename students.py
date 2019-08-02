@@ -29,12 +29,18 @@ class Citizens:
     def update_debt(self, amount):
         self.debt += amount
 
+    def debt_interest(self, r):
+        self.debt *= r
+
     def register(self, ife, y):
         self.ifes = ife
         self.schooling = y
 
     def income(self, amount):
         self.balance += amount
+
+    def wage_interest(self, r):
+        self.wage *= r
 
     def transfer(self, amount):
         self.balance -= amount
