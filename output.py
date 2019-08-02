@@ -21,7 +21,9 @@ def produce_output(g, ins, st):
     inst_gov_transfer = parameters.period * parameters.transfer_amount_per_ifes
     print('Expected Median balance of institutions with Government transfer only: ${:,.0f}'
           .format(inst_gov_transfer))
-    print('Median ECR gain per institution: ${:,.2f}'
+    print('Median ECR gain per institution: ${:,.0f}'
           .format(median([i.get_balance() for i in ins]) - inst_gov_transfer))
+    print('Total ECR gain: ${:,.0f}'
+          .format(sum([i.get_balance() for i in ins]) - (inst_gov_transfer * parameters.num_ifes)))
     print('Graduated students in the economy: {:,.0f}'
           .format(sum([s.graduate is True for s in st]) * parameters.sampling_stds))

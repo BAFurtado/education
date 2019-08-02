@@ -6,6 +6,9 @@ starting_year = 2017
 period = 30
 
 grad_len = 4
+# Extra fee to participate in ECR program on top of full tuition
+surcharge = .25
+
 # capacity_stds = 483137
 # entering_stds_2013 = 325267
 graduate_num_2017 = int(151376 / sampling_stds)

@@ -8,7 +8,7 @@ from government import Government
 from ifes import Institutions
 from students import Citizens
 
-logger = logging.getLogger('main')
+logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
@@ -86,6 +86,8 @@ def evolve(g, ins, std):
                 if school.check_place():
                     school.register(each)
                     each.register(school, 0)
+                    # Add extra 25% tuition fee on top of total value
+                    each.update_debt(school.get_tuition() * parameters.grad_len * parameters.surcharge)
             # If registered, updated debt and years of study
             if each.get_ifes() is not None:
                 each.update_schooling()
