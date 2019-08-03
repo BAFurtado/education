@@ -63,7 +63,7 @@ def evolve(g, ins, std):
         g, ins = gov_transfers(g, ins)
 
         # Citizens get paid
-        [i.income(i.get_wage()) for i in std if i.get_age() > 22]
+        [i.income(i.get_wage()) for i in std if i.get_age() > 23]
 
         # Generate students for a given year
         # First 4 years populate the system
@@ -117,8 +117,8 @@ def evolve(g, ins, std):
         # 5. Update debts using interest rate
         [s.debt_interest(parameters.interest_on_tuition + 1) for s in std]
 
-        # 6. Update wages using real interest
-        [s.wage_interest(parameters.real_interest_on_wages + 1) for s in std]
+        # 6. Update wages using distribution if students are over 24
+        [i.update_wage() for i in std if i.get_age() > 24]
 
     return g, ins, std
 
