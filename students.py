@@ -42,12 +42,9 @@ class Citizens:
     def update_wage(self):
         self.wage = generate_wage(self.get_age(), self.gender)
 
-    def transfer(self, amount):
-        self.balance -= amount
-        return amount
-
     def pay_principal(self, amount):
         self.debt -= amount
+        self.balance -= amount
 
     def set_debt(self):
         self.debt = 0

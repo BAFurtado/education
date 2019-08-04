@@ -43,13 +43,14 @@ def pay_tuition(s):
     ifs = s.get_ifes()
     if s.get_debt() > 0:
         max_payment = ecr.calculate_ecr_max(s.get_wage())
-        if max_payment < s.get_debt():
-            ifs.deposit(s.transfer(max_payment * parameters.sampling_stds))
-            s.pay_principal(max_payment)
-        else:
-            ifs.deposit(s.transfer(s.get_debt() * parameters.sampling_stds))
-            s.pay_principal(s.get_debt())
-            s.set_debt()
+        if max_payment > 0:
+            if max_payment < s.get_debt():
+                ifs.deposit(max_payment * parameters.sampling_stds)
+                s.pay_principal(max_payment)
+            else:
+                ifs.deposit(s.get_debt() * parameters.sampling_stds)
+                s.pay_principal(s.get_debt())
+                s.set_debt()
 
 
 def evolve(g, ins, std):
