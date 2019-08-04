@@ -21,6 +21,10 @@ def generate_wage(age, gender):
 
 
 if __name__ == '__main__':
-    age = 24
-    gender = 'Female'
-    print(generate_wage(age, gender))
+    l = list()
+    for k in range(100):
+        for i in range(24, 65):
+            for j in ['Male', 'Female']:
+                age = i
+                gender = j
+                l.append(generate_wage(age, gender))

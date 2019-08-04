@@ -62,8 +62,8 @@ def evolve(g, ins, std):
         # Government yearly transferes
         g, ins = gov_transfers(g, ins)
 
-        # Citizens get paid
-        [i.income(i.get_wage()) for i in std if i.get_age() > 23]
+        # Citizens get paid for the first time
+        [i.income(i.get_wage()) for i in std if i.get_age() == 24]
 
         # Generate students for a given year
         # First 4 years populate the system
@@ -102,7 +102,7 @@ def evolve(g, ins, std):
                     each.get_ifes().deregister(each)
 
             # 3. Ifes collect payment
-            if each.get_ifes() is not None:
+            if each.get_ifes() is not None and each.get_age() > 23:
                 pay_tuition(each)
             # Update age
             each.update_age()
@@ -119,6 +119,7 @@ def evolve(g, ins, std):
 
         # 6. Update wages using distribution if students are over 24
         [i.update_wage() for i in std if i.get_age() > 24]
+        [i.income(i.get_wage()) for i in std if i.get_age() > 24]
 
     return g, ins, std
 

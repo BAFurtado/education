@@ -3,12 +3,12 @@ from numpy import median
 
 
 def print_parameters():
+    print('Age students start getting paid: 24. Age debts start getting collected: 24.')
     print('This run used the following parameters')
     print('Amount transferred per year, per institution: {:,.0f}'.format(parameters.transfer_amount_per_ifes))
     print('Number of years simulation run: {}'.format(parameters.period))
     print('Number of institutions: {}'.format(parameters.num_ifes))
     print('Length of years to graduate: {}'.format(parameters.grad_len))
-    print('Average per capita wage ex-ante: ${:,.0f}'.format(parameters.avg_wage))
 
 
 def produce_output(g, ins, st):

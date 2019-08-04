@@ -18,4 +18,3 @@ real_interest_on_wages = 0.01
 graduate_num_2017 = int(151376 / sampling_stds)
 num_stds_per_year = int(graduate_num_2017 / grad_len)
 num_stds_per_ifes = int(num_stds_per_year / num_ifes)
-avg_wage = 1401 * 12
