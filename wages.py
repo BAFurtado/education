@@ -28,3 +28,4 @@ if __name__ == '__main__':
                 age = i
                 gender = j
                 l.append(generate_wage(age, gender))
+    print(l)

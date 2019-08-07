@@ -12,10 +12,10 @@ class Citizens:
         self.ifes = None
         self.balance = 0
         self.debt = 0
-        self.gender = random.choices(['Male', 'Female'], [.4, .6])[0]
+        self.gender = random.choices(['Male', 'Female'], [.4271049, .5728951 ])[0]
         # Draw a number from Beta distribution to get a Gini distribution for Brazil
         # Multiply by the inverse of the average of the Beta distribution to have an average mean
-        self.wage = generate_wage(24, self.gender)
+        self.wage = 0
 
     def collate(self):
         self.graduate = True

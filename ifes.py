@@ -12,9 +12,12 @@ class Institutions:
         self.balance = 0
         self.studying = list()
         self.tuition = normalvariate(50000, 10000) / 4
+        self.ecr = 0
 
-    def deposit(self, amount):
+    def deposit(self, amount, ecr=False):
         self.balance += amount
+        if ecr:
+            self.ecr += amount
 
     def register(self, student):
         self.studying.append(student)
@@ -30,6 +33,9 @@ class Institutions:
 
     def get_tuition(self):
         return self.tuition
+
+    def get_ecr(self):
+        return self.ecr
 
     def is_registered(self, student):
         if student in self.studying:

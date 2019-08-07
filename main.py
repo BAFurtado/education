@@ -45,10 +45,10 @@ def pay_tuition(s):
         max_payment = ecr.calculate_ecr_max(s.get_wage())
         if max_payment > 0:
             if max_payment < s.get_debt():
-                ifs.deposit(max_payment * parameters.sampling_stds)
+                ifs.deposit(max_payment * parameters.sampling_stds, ecr=True)
                 s.pay_principal(max_payment)
             else:
-                ifs.deposit(s.get_debt() * parameters.sampling_stds)
+                ifs.deposit(s.get_debt() * parameters.sampling_stds, ecr=True)
                 s.pay_principal(s.get_debt())
                 s.set_debt()
 
@@ -82,13 +82,18 @@ def evolve(g, ins, std):
         logger.info('Cycling over {:,.0f} students...'.format(len(std) * parameters.sampling_stds))
         for each in std:
             # Estimated number of agents: 470 thousand
-            if (each.get_age() > 18 & each.get_age() < 25) & (each.get_ifes() is None):
-                school = random.choice(ins)
-                if school.check_place():
-                    school.register(each)
-                    each.register(school, 0)
-                    # Add extra 25% tuition fee on top of total value
-                    each.update_debt(school.get_tuition() * parameters.grad_len * parameters.surcharge)
+            # Registering at first year
+            if (each.get_age() == 19) & (each.get_ifes() is None):
+                # All students at 19 enter the system somewhere
+                while each.get_ifes() is None:
+                    school = random.choice(ins)
+                    if school.check_place():
+                        school.register(each)
+                        each.register(school, 0)
+                        # Add extra 25% tuition fee on top of total value
+                        each.update_debt(school.get_tuition() * parameters.grad_len * parameters.surcharge)
+                    else:
+                        print('place not found')
             # If registered, updated debt and years of study
             if each.get_ifes() is not None:
                 each.update_schooling()
@@ -109,6 +114,7 @@ def evolve(g, ins, std):
             each.update_age()
             if each.get_age() > 65:
                 std.remove(each)
+
         # 4. Free students without debt
         logger.info('Providing documentation for students who have paid their debts...')
         debt_free = [s for s in std if s.get_ifes() is not None and s.get_debt() == 0]
@@ -116,11 +122,14 @@ def evolve(g, ins, std):
             std.remove(df)
 
         # 5. Update debts using interest rate
-        [s.debt_interest(parameters.interest_on_tuition + 1) for s in std]
+        [s.debt_interest(parameters.interest_on_tuition + 1) for s in std if s.get_wage() > ecr.ecr['isento'][1]]
 
         # 6. Update wages using distribution if students are over 24
         [i.update_wage() for i in std if i.get_age() > 24]
         [i.income(i.get_wage()) for i in std if i.get_age() > 24]
+
+        # Register ECR hitherto
+        ecr.calculate_npv(sum([i.get_ecr() for i in ins]), y)
 
     return g, ins, std
 
