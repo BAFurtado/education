@@ -3,7 +3,7 @@ sampling_stds = 100
 num_ifes = 63
 transfer_amount_per_ifes = 5000000000 / num_ifes
 starting_year = 2017
-period = 8
+period = 30
 
 grad_len = 4
 # Extra fee to participate in ECR program on top of full tuition

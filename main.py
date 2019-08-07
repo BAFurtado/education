@@ -48,7 +48,7 @@ def pay_tuition(s, year):
                 ifs.deposit(max_payment * parameters.sampling_stds, ecrm=True, year=year)
                 s.pay_principal(max_payment)
             else:
-                ifs.deposit(s.get_debt() * parameters.sampling_stds, ecr=True, year=year)
+                ifs.deposit(s.get_debt() * parameters.sampling_stds, ecrm=True, year=year)
                 s.pay_principal(s.get_debt())
                 s.set_debt()
 

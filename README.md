@@ -1,6 +1,5 @@
-This is an exploratory model to simulate education financing scenarios
+This is an exploratory model to simulate education financing scenarios. ECR -- Income Restrained Loans
 
-*TODO:* 
+**Background phenomena**: Paulo Augusto Meyer
 
-0. Get wage distribution for graduate students
-5. Apply gender to rationale 
+**Modeling**: Bernardo Alves Furtado
