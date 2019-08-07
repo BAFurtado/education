@@ -4,6 +4,7 @@ import random
 import ecr
 import output
 import parameters
+import plotter
 from government import Government
 from ifes import Institutions
 from students import Citizens
