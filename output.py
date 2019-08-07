@@ -1,5 +1,7 @@
-import parameters
 from numpy import median
+
+import ecr
+import parameters
 
 
 def print_parameters():
@@ -23,7 +25,9 @@ def produce_output(g, ins, st):
           .format(inst_gov_transfer))
     print('Median ECR gain per institution: ${:,.0f}'
           .format(median([i.get_balance() for i in ins]) - inst_gov_transfer))
-    print('Total ECR gain: ${:,.0f}'
+    print('Total ECR gain in nominal value at end of period: ${:,.0f}'
           .format(sum([i.get_balance() for i in ins]) - (inst_gov_transfer * parameters.num_ifes)))
     print('Graduated students in the economy: {:,.0f}'
           .format(sum([s.graduate is True for s in st]) * parameters.sampling_stds))
+    print('ECR up to year {} at present value: ${:,.0f}'
+          .format(parameters.starting_year + parameters.period, ecr.calculate_npv(None, None, False)))

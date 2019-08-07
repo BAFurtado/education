@@ -1,6 +1,9 @@
-from numpy import npv
-import parameters
 import os
+
+import pandas as pd
+from numpy import npv
+
+import parameters
 
 ecr = {'isento': [0, 22847.76, 0],
        'faixa2': [22847.77, 33919.8, 0.0375],
@@ -27,25 +30,25 @@ def calculate_ecr_max(income, value=0):
     return value
 
 
-def register_values(value, year):
-    file_name = 'present_value.csv'
+def register_values(value, year, name):
+
     if year == parameters.starting_year:
-        if os.path.exists(file_name):
-            os.remove(file_name)
-        with open(file_name, 'a') as f:
+        if os.path.exists(name):
+            os.remove(name)
+        with open(name, 'a') as f:
             f.write('present_value;year\n')
-            f.write('{};{}'.format(value, year))
+            f.write('{};{}\n'.format(value, year))
     else:
-        with open(file_name, 'a') as f:
-            f.write('{};{}'.format(value, year))
+        with open(name, 'a') as f:
+            f.write('{};{}\n'.format(value, year))
 
 
-def calculate_npv(value, year):
-    register_values(value, year)
-    # with open('present_value.csv', 'r') as f:
-    #
-    #
-    # present_value = npv(parameters.interest_on_tuition, value)
+def calculate_npv(value, year, add_data=True):
+    file_name = 'present_value.csv'
+    if add_data:
+        register_values(value, year, file_name)
+    data = pd.read_csv(file_name, sep=';')
+    return npv(parameters.interest_on_tuition, data.present_value)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,3 @@
-
-3. Calcular valor presente. Antes guardar ECR ganhos anuais. 
-4. Gerar VALOR PREESENTE PARA CADA ANO A MAIS DE ECR. PRINT AND SAVE.
 Gerar gráfico X anos desde a implementação e valor presente
 
 Phase2.

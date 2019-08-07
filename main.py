@@ -39,16 +39,16 @@ def gov_transfers(g, ins):
     return g, ins
 
 
-def pay_tuition(s):
+def pay_tuition(s, year):
     ifs = s.get_ifes()
     if s.get_debt() > 0:
         max_payment = ecr.calculate_ecr_max(s.get_wage())
         if max_payment > 0:
             if max_payment < s.get_debt():
-                ifs.deposit(max_payment * parameters.sampling_stds, ecr=True)
+                ifs.deposit(max_payment * parameters.sampling_stds, ecrm=True, year=year)
                 s.pay_principal(max_payment)
             else:
-                ifs.deposit(s.get_debt() * parameters.sampling_stds, ecr=True)
+                ifs.deposit(s.get_debt() * parameters.sampling_stds, ecr=True, year=year)
                 s.pay_principal(s.get_debt())
                 s.set_debt()
 
@@ -109,7 +109,7 @@ def evolve(g, ins, std):
 
             # 3. Ifes collect payment
             if each.get_ifes() is not None and each.get_age() > 23:
-                pay_tuition(each)
+                pay_tuition(each, year=y)
             # Update age
             each.update_age()
             if each.get_age() > 65:
@@ -129,7 +129,8 @@ def evolve(g, ins, std):
         [i.income(i.get_wage()) for i in std if i.get_age() > 24]
 
         # Register ECR hitherto
-        ecr.calculate_npv(sum([i.get_ecr() for i in ins]), y)
+        print('ECR up to year {} at present value: ${:,.0f}'
+              .format(y, ecr.calculate_npv(sum([i.get_ecr(y) for i in ins]), y)))
 
     return g, ins, std
 

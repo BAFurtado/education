@@ -3,6 +3,7 @@
 """
 from random import normalvariate
 from parameters import num_stds_per_ifes
+from collections import defaultdict
 
 
 class Institutions:
@@ -12,12 +13,12 @@ class Institutions:
         self.balance = 0
         self.studying = list()
         self.tuition = normalvariate(50000, 10000) / 4
-        self.ecr = 0
+        self.ecr = defaultdict(float)
 
-    def deposit(self, amount, ecr=False):
+    def deposit(self, amount, ecrm=False, year=2017):
         self.balance += amount
-        if ecr:
-            self.ecr += amount
+        if ecrm:
+            self.ecr[year] += amount
 
     def register(self, student):
         self.studying.append(student)
@@ -34,8 +35,8 @@ class Institutions:
     def get_tuition(self):
         return self.tuition
 
-    def get_ecr(self):
-        return self.ecr
+    def get_ecr(self, y):
+        return self.ecr[y]
 
     def is_registered(self, student):
         if student in self.studying:
