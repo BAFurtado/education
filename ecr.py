@@ -31,7 +31,6 @@ def calculate_ecr_max(income, value=0):
 
 
 def register_values(value, year, name):
-
     if year == parameters.starting_year:
         if os.path.exists(name):
             os.remove(name)

@@ -61,11 +61,8 @@ def evolve(g, ins, std):
     for y in range(parameters.starting_year, parameters.starting_year + parameters.period):
         logger.info('Initiating year {}...'.format(y))
 
-        # Government yearly transferes
+        # Government yearly transfers
         g, ins = gov_transfers(g, ins)
-
-        # Citizens get paid for the first time
-        [i.income(i.get_wage()) for i in std if i.get_age() == 24]
 
         # Generate students for a given year
         # First 4 years populate the system
@@ -95,6 +92,12 @@ def evolve(g, ins, std):
                         each.update_debt(school.get_tuition() * parameters.grad_len * parameters.surcharge)
                     else:
                         print('place not found')
+
+            # Update age
+            each.update_age()
+            if each.get_age() > 65:
+                std.remove(each)
+
             # If registered, updated debt and years of study
             if each.get_ifes() is not None:
                 each.update_schooling()
@@ -108,14 +111,6 @@ def evolve(g, ins, std):
                     # Deregister at school and open up place
                     each.get_ifes().deregister(each)
 
-            # 3. Ifes collect payment
-            if each.get_ifes() is not None and each.get_age() > 23:
-                pay_tuition(each, year=y)
-            # Update age
-            each.update_age()
-            if each.get_age() > 65:
-                std.remove(each)
-
         # 4. Free students without debt
         logger.info('Providing documentation for students who have paid their debts...')
         debt_free = [s for s in std if s.get_ifes() is not None and s.get_debt() == 0]
@@ -126,8 +121,13 @@ def evolve(g, ins, std):
         [s.debt_interest(parameters.interest_on_tuition + 1) for s in std if s.get_wage() > ecr.ecr['isento'][1]]
 
         # 6. Update wages using distribution if students are over 24
+        # Citizens get paid for the first time
+        [i.income(i.get_wage()) for i in std if i.get_age() == 24]
         [i.update_wage() for i in std if i.get_age() > 24]
         [i.income(i.get_wage()) for i in std if i.get_age() > 24]
+
+        # 3. Ifes collect payment
+        [pay_tuition(i, year=y) for i in std if i.get_ifes() is not None and i.get_age() > 23]
 
         # Register ECR hitherto
         print('ECR up to year {} at present value: ${:,.0f}'
@@ -141,3 +141,4 @@ if __name__ == '__main__':
     gov, insts = generate_agents(parameters.num_ifes)
     gov, insts, stds = evolve(gov, insts, stds)
     output.produce_output(gov, insts, stds)
+    plotter.plotting()
