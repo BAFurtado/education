@@ -52,7 +52,7 @@ def register_values(value, year, name):
 
 def calculate_npv(value, year, add_data=True):
     """ Calculates the present value"""
-    file_name = 'present_value.csv'
+    file_name = 'results/present_value.csv'
     if add_data:
         register_values(value, year, file_name)
     data = pd.read_csv(file_name, sep=';')

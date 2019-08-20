@@ -1,5 +1,6 @@
 0. Multiple runs
-1. Calculate ICL per coorte
+1. Read alternative wage base
+2. Calculate ICL per coorte
 
 Phase2.
 1. Include flows of students entering and leaving the system. Check evation, survival rate. 

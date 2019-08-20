@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def plotting():
-    file_name = 'present_value.csv'
+    file_name = 'results/present_value.csv'
     data = pd.read_csv(file_name, sep=';')
 
     fig = plt.figure()
@@ -27,7 +27,7 @@ def plotting():
     plt.tick_params(axis='both', which='both', bottom=False, top=False,
                     labelbottom=True, left=False, right=False, labelleft=True)
 
-    plt.savefig('{}.png'.format('fig'), bbox_inches='tight')
+    plt.savefig('results/fig.png', bbox_inches='tight')
     plt.show()
 
 
