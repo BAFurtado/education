@@ -2,14 +2,14 @@
 
 """
 from random import normalvariate
-from parameters import num_stds_per_ifes
+from parameters import num_stds_per_universities
 from collections import defaultdict
 
 
 class Universities:
     def __init__(self, id_):
         self.id = id_
-        self.places = num_stds_per_ifes
+        self.places = num_stds_per_universities
         self.balance = 0
         self.studying = list()
         self.tuition = normalvariate(50000, 10000) / 4

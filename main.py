@@ -36,12 +36,12 @@ def gov_transfers(g, ins):
     # 1. Government transfer
     # Cycle over institutions
     for f in ins:
-        g.transfer(parameters.transfer_amount_per_ifes, f)
+        g.transfer(parameters.transfer_amount_per_universities, f)
     return g, ins
 
 
 def pay_tuition(s, year):
-    ifs = s.get_ifes()
+    ifs = s.get_universities()
     if s.get_debt() > 0:
         max_payment = ecr.calculate_ecr_max(s.get_wage())
         if max_payment > 0:
@@ -81,9 +81,9 @@ def evolve(g, ins, std):
         for each in std:
             # Estimated number of agents: 470 thousand
             # Registering at first year
-            if (each.get_age() == 19) & (each.get_ifes() is None):
+            if (each.get_age() == 19) & (each.get_universities() is None):
                 # All students at 19 enter the system somewhere
-                while each.get_ifes() is None:
+                while each.get_universities() is None:
                     school = random.choice(ins)
                     if school.check_place():
                         school.register(each)
@@ -99,21 +99,21 @@ def evolve(g, ins, std):
                 std.remove(each)
 
             # If registered, updated debt and years of study
-            if each.get_ifes() is not None:
+            if each.get_universities() is not None:
                 each.update_schooling()
-                if each.get_ifes().is_registered(each):
-                    each.update_debt(each.get_ifes().get_tuition())
+                if each.get_universities().is_registered(each):
+                    each.update_debt(each.get_universities().get_tuition())
             # 1. Students enter school
             # 2. Graduate students
-            if each.get_graduate() is False and each.get_ifes() is not None:
+            if each.get_graduate() is False and each.get_universities() is not None:
                 if each.get_schooling() == parameters.grad_len:
                     each.collate()
                     # Deregister at school and open up place
-                    each.get_ifes().deregister(each)
+                    each.get_universities().deregister(each)
 
         # 4. Free students without debt
         logger.info('Providing documentation for students who have paid their debts...')
-        debt_free = [s for s in std if s.get_ifes() is not None and s.get_debt() == 0]
+        debt_free = [s for s in std if s.get_universities() is not None and s.get_debt() == 0]
         for df in debt_free:
             std.remove(df)
 
@@ -127,7 +127,7 @@ def evolve(g, ins, std):
         [i.income(i.get_wage()) for i in std if i.get_age() > 24]
 
         # 3. Ifes collect payment
-        [pay_tuition(i, year=y) for i in std if i.get_ifes() is not None and i.get_age() > 23]
+        [pay_tuition(i, year=y) for i in std if i.get_universities() is not None and i.get_age() > 23]
 
         # Register ECR hitherto
         print('ECR up to year {} at present value: ${:,.0f}'
@@ -138,7 +138,7 @@ def evolve(g, ins, std):
 
 if __name__ == '__main__':
     stds = list()
-    gov, insts = generate_agents(parameters.num_ifes)
+    gov, insts = generate_agents(parameters.num_universities)
     gov, insts, stds = evolve(gov, insts, stds)
     output.produce_output(gov, insts, stds)
     plotter.plotting()
