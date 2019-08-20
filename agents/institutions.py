@@ -6,7 +6,7 @@ from parameters import num_stds_per_ifes
 from collections import defaultdict
 
 
-class Institutions:
+class Universities:
     def __init__(self, id_):
         self.id = id_
         self.places = num_stds_per_ifes
@@ -55,4 +55,4 @@ class Institutions:
 
 
 if __name__ == '__main__':
-    i = Institutions(0)
+    i = Universities(0)

@@ -5,9 +5,9 @@ import ecr
 import output
 import parameters
 import plotter
-from government import Government
-from ifes import Institutions
-from students import Citizens
+from agents.government import Government
+from agents.institutions import Universities
+from agents.students import Citizens
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -22,7 +22,7 @@ def loop(agent, n):
 
 def generate_agents(ni):
     g = Government()
-    inst = loop(Institutions, ni)
+    inst = loop(Universities, ni)
     return g, inst
 
 
