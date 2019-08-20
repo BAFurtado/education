@@ -1,7 +1,7 @@
 import logging
 import random
 
-import ecr
+import icl
 import output
 import parameters
 import plotter
@@ -36,20 +36,20 @@ def gov_transfers(g, ins):
     # 1. Government transfer
     # Cycle over institutions
     for f in ins:
-        g.transfer(parameters.transfer_amount_per_universities, f)
+        g.transfer(parameters.transfer_amount_per_hei, f)
     return g, ins
 
 
 def pay_tuition(s, year):
-    ifs = s.get_universities()
+    ifs = s.get_hei()
     if s.get_debt() > 0:
-        max_payment = ecr.calculate_ecr_max(s.get_wage())
+        max_payment = icl.calculate_icl_max(s.get_wage())
         if max_payment > 0:
             if max_payment < s.get_debt():
-                ifs.deposit(max_payment * parameters.sampling_stds, ecrm=True, year=year)
+                ifs.deposit(max_payment * parameters.sampling_stds, iclm=True, year=year)
                 s.pay_principal(max_payment)
             else:
-                ifs.deposit(s.get_debt() * parameters.sampling_stds, ecrm=True, year=year)
+                ifs.deposit(s.get_debt() * parameters.sampling_stds, iclm=True, year=year)
                 s.pay_principal(s.get_debt())
                 s.set_debt()
 
@@ -81,9 +81,9 @@ def evolve(g, ins, std):
         for each in std:
             # Estimated number of agents: 470 thousand
             # Registering at first year
-            if (each.get_age() == 19) & (each.get_universities() is None):
+            if (each.get_age() == 19) & (each.get_hei() is None):
                 # All students at 19 enter the system somewhere
-                while each.get_universities() is None:
+                while each.get_hei() is None:
                     school = random.choice(ins)
                     if school.check_place():
                         school.register(each)
@@ -99,26 +99,26 @@ def evolve(g, ins, std):
                 std.remove(each)
 
             # If registered, updated debt and years of study
-            if each.get_universities() is not None:
+            if each.get_hei() is not None:
                 each.update_schooling()
-                if each.get_universities().is_registered(each):
-                    each.update_debt(each.get_universities().get_tuition())
+                if each.get_hei().is_registered(each):
+                    each.update_debt(each.get_hei().get_tuition())
             # 1. Students enter school
             # 2. Graduate students
-            if each.get_graduate() is False and each.get_universities() is not None:
+            if each.get_graduate() is False and each.get_hei() is not None:
                 if each.get_schooling() == parameters.grad_len:
                     each.collate()
                     # Deregister at school and open up place
-                    each.get_universities().deregister(each)
+                    each.get_hei().deregister(each)
 
         # 4. Free students without debt
         logger.info('Providing documentation for students who have paid their debts...')
-        debt_free = [s for s in std if s.get_universities() is not None and s.get_debt() == 0]
+        debt_free = [s for s in std if s.get_hei() is not None and s.get_debt() == 0]
         for df in debt_free:
             std.remove(df)
 
         # 5. Update debts using interest rate
-        [s.debt_interest(parameters.interest_on_tuition + 1) for s in std if s.get_wage() > ecr.ecr['isento'][1]]
+        [s.debt_interest(parameters.interest_on_tuition + 1) for s in std if s.get_wage() > icl.icl['initial_threshold'][1]]
 
         # 6. Update wages using distribution if students are over 24
         # Citizens get paid for the first time
@@ -127,18 +127,18 @@ def evolve(g, ins, std):
         [i.income(i.get_wage()) for i in std if i.get_age() > 24]
 
         # 3. Ifes collect payment
-        [pay_tuition(i, year=y) for i in std if i.get_universities() is not None and i.get_age() > 23]
+        [pay_tuition(i, year=y) for i in std if i.get_hei() is not None and i.get_age() > 23]
 
         # Register ECR hitherto
         print('ECR up to year {} at present value: ${:,.0f}'
-              .format(y, ecr.calculate_npv(sum([i.get_ecr(y) for i in ins]), y)))
+              .format(y, icl.calculate_npv(sum([i.get_icl(y) for i in ins]), y)))
 
     return g, ins, std
 
 
 if __name__ == '__main__':
     stds = list()
-    gov, insts = generate_agents(parameters.num_universities)
+    gov, insts = generate_agents(parameters.num_hei)
     gov, insts, stds = evolve(gov, insts, stds)
     output.produce_output(gov, insts, stds)
     plotter.plotting()

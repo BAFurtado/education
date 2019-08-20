@@ -2,23 +2,23 @@
 
 """
 from random import normalvariate
-from parameters import num_stds_per_universities
+from parameters import num_stds_per_hei
 from collections import defaultdict
 
 
 class Universities:
     def __init__(self, id_):
         self.id = id_
-        self.places = num_stds_per_universities
+        self.places = num_stds_per_hei
         self.balance = 0
         self.studying = list()
         self.tuition = normalvariate(50000, 10000) / 4
-        self.ecr = defaultdict(float)
+        self.icl = defaultdict(float)
 
-    def deposit(self, amount, ecrm=False, year=2017):
+    def deposit(self, amount, iclm=False, year=2017):
         self.balance += amount
-        if ecrm:
-            self.ecr[year] += amount
+        if iclm:
+            self.icl[year] += amount
 
     def register(self, student):
         self.studying.append(student)
@@ -35,8 +35,8 @@ class Universities:
     def get_tuition(self):
         return self.tuition
 
-    def get_ecr(self, y):
-        return self.ecr[y]
+    def get_icl(self, y):
+        return self.icl[y]
 
     def is_registered(self, student):
         if student in self.studying:

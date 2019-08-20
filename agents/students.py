@@ -9,7 +9,7 @@ class Citizens:
         self.graduate = False
         self.age = 19
         self.schooling = None
-        self.universities = None
+        self.hei = None
         self.balance = 0
         self.debt = 0
         self.gender = random.choices(['Male', 'Female'], [.4271049, .5728951 ])[0]
@@ -33,7 +33,7 @@ class Citizens:
         self.debt *= r
 
     def register(self, ife, y):
-        self.universities = ife
+        self.hei = ife
         self.schooling = y
 
     def income(self, amount):
@@ -64,8 +64,8 @@ class Citizens:
     def get_graduate(self):
         return self.graduate
 
-    def get_universities(self):
-        return self.universities
+    def get_hei(self):
+        return self.hei
 
     def get_wage(self):
         return self.wage
