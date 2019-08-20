@@ -1,9 +1,6 @@
-import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import numpy as np
-import parameters
+import pandas as pd
 
 
 def plotting():

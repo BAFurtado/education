@@ -3,7 +3,7 @@ import random
 from wages import generate_wage
 
 
-class Citizens:
+class Students:
     def __init__(self, id_):
         self.id = id_
         self.graduate = False
@@ -75,6 +75,6 @@ class Citizens:
 
 
 if __name__ == '__main__':
-    c = Citizens(0)
+    c = Students(0)
     c.collate()
     print(c)

@@ -1,3 +1,6 @@
+""" These are auxiliary functions that calculate ICL.
+"""
+
 import os
 
 import pandas as pd
@@ -5,6 +8,7 @@ from numpy import npv
 
 import parameters
 
+# ICL is tested for the Brazilian case using the same table used for Income Rate discounts. In Reals R$.
 icl = {'initial_threshold': [0, 22847.76, 0],
        'threshold2': [22847.77, 33919.8, 0.0375],
        'threshold3': [33919.81, 45012.6, 0.075],
@@ -13,6 +17,9 @@ icl = {'initial_threshold': [0, 22847.76, 0],
 
 
 def calculate_icl_max(income, value=0):
+    """ Calculates ICL considering marginal values by income thresholds
+        Given an income, it returns the amount to be deducted.
+    """
     if income < icl['initial_threshold'][1]:
         return value
     elif income < icl['threshold2'][1]:
@@ -31,6 +38,7 @@ def calculate_icl_max(income, value=0):
 
 
 def register_values(value, year, name):
+    """ Save yearly information to a file """
     if year == parameters.starting_year:
         if os.path.exists(name):
             os.remove(name)
@@ -43,6 +51,7 @@ def register_values(value, year, name):
 
 
 def calculate_npv(value, year, add_data=True):
+    """ Calculates the present value"""
     file_name = 'present_value.csv'
     if add_data:
         register_values(value, year, file_name)

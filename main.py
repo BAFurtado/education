@@ -1,3 +1,5 @@
+""" This module contains the main sequence of events of the model """
+
 import logging
 import random
 
@@ -7,13 +9,14 @@ import parameters
 import plotter
 from agents.government import Government
 from agents.institutions import Universities
-from agents.students import Citizens
+from agents.students import Students
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
 def loop(agent, n):
+    """ Creates an agent"""
     l = list()
     for i in range(n):
         l.append(agent(i))
@@ -28,7 +31,7 @@ def generate_agents(ni):
 
 def generate_std_candidates(size, lst):
     for i in range(size):
-        lst.append(Citizens(i))
+        lst.append(Students(i))
     return lst
 
 
