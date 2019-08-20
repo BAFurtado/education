@@ -24,7 +24,7 @@ def plotting():
     ax.get_xaxis().tick_bottom()
     ax.get_yaxis().tick_left()
     ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: '{:,.0f}'
-                                                      .format(x / 1000000) + ' Millions'))
+                                                      .format(x / 1000000) + ' Million'))
     ax.xaxis.set_major_locator(plt.MaxNLocator(8))
     plt.grid(True, 'major', 'y', ls='--', lw=.5, alpha=.3)
     plt.tick_params(axis='both', which='both', bottom=False, top=False,
