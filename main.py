@@ -88,7 +88,7 @@ def evolve(g, ins, std):
         for each in std:
             # Estimated number of agents: 470 thousand
             # Registering at first year
-            if (each.get_age() == 19) & (each.get_hei() is None):
+            if (each.get_age() == 20) & (each.get_hei() is None):
                 # All students at 19 enter the system somewhere
                 while each.get_hei() is None:
                     school = random.choice(ins)

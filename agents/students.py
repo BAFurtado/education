@@ -7,7 +7,7 @@ class Students:
     def __init__(self, id_):
         self.id = id_
         self.graduate = False
-        self.age = 19
+        self.age = 20
         self.schooling = None
         self.hei = None
         self.balance = 0
