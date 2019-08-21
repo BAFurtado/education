@@ -1,4 +1,4 @@
-""" These are auxiliary functions that calculate ICL.
+""" These are auxiliary functions that calculate Income Contingent Loans (ICL).
 """
 
 import os

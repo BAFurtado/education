@@ -69,18 +69,22 @@ def evolve(g, ins, std):
 
         # Generate students for a given year
         # First 4 years populate the system
-        if y < parameters.starting_year + 3:
+        if y < parameters.starting_year + 4:
             logger.info('Generating {:,.0f} students...'
                         .format(parameters.num_stds_per_year * parameters.sampling_stds))
             std = generate_std_candidates(parameters.num_stds_per_year, std)
         else:
+            # Afterwards, check the number of available positions
             num = sum([i.num_students() for i in ins])
-            size = parameters.graduate_num_2017 - num
-            logger.info('Generating {:,.0f} students...'.format(size))
+            size = (parameters.graduate_num_2017 * parameters.grad_len) - num
+            # Check if number of students is above capacity of the system
+            if size < 0:
+                size = 0
+            logger.info('Generating {:,.0f} new students...'.format(size * parameters.sampling_stds))
             std = generate_std_candidates(size, std)
 
         # Cycle over students
-        logger.info('Cycling over {:,.0f} students...'.format(len(std) * parameters.sampling_stds))
+        logger.info('Cycling over {:,.0f} students... and graduates...'.format(len(std) * parameters.sampling_stds))
         for each in std:
             # Estimated number of agents: 470 thousand
             # Registering at first year
@@ -93,8 +97,6 @@ def evolve(g, ins, std):
                         each.register(school, 0)
                         # Add extra 25% tuition fee on top of total value
                         each.update_debt(school.get_tuition() * parameters.grad_len * parameters.surcharge)
-                    else:
-                        print('place not found')
 
             # Update age
             each.update_age()
@@ -133,7 +135,7 @@ def evolve(g, ins, std):
         [pay_tuition(i, year=y) for i in std if i.get_hei() is not None and i.get_age() > 23]
 
         # Register ECR hitherto
-        print('ECR up to year {} at present value: ${:,.0f}'
+        print('ICL up to year {} at present value: ${:,.0f}'
               .format(y, icl.calculate_npv(sum([i.get_icl(y) for i in ins]), y)))
 
     return g, ins, std
