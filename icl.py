@@ -43,7 +43,7 @@ def register_values(value, year, name):
         if os.path.exists(name):
             os.remove(name)
         with open(name, 'a') as f:
-            f.write('present_value;year\n')
+            f.write('value;year\n')
             f.write('{};{}\n'.format(value, year))
     else:
         with open(name, 'a') as f:
@@ -52,11 +52,14 @@ def register_values(value, year, name):
 
 def calculate_npv(value, year, add_data=True):
     """ Calculates the present value"""
-    file_name = 'results/present_value.csv'
+    file_name = 'results/nominal_value.csv'
     if add_data:
         register_values(value, year, file_name)
     data = pd.read_csv(file_name, sep=';')
-    return npv(parameters.interest_on_tuition, data.present_value)
+    present_value = npv(parameters.interest_on_tuition, data.value)
+    if add_data:
+        register_values(present_value, year, 'results/present_value.csv')
+    return present_value
 
 
 if __name__ == '__main__':

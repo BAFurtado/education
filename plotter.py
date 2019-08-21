@@ -3,16 +3,15 @@ import matplotlib.ticker as ticker
 import pandas as pd
 
 
-def plotting():
-    file_name = 'results/present_value.csv'
+def plotting(file_name):
     data = pd.read_csv(file_name, sep=';')
 
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.bar(x='year', height='present_value', data=data)
+    ax.bar(x='year', height='value', data=data)
 
-    ax.set(xlabel='Year', ylabel='Present ECR value', title='ECR gains at present value')
+    ax.set(xlabel='Year', ylabel='ICL value', title='ICL gains at {} value'.format(file_name[8:-10]))
 
     ax.spines['top'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
@@ -27,9 +26,12 @@ def plotting():
     plt.tick_params(axis='both', which='both', bottom=False, top=False,
                     labelbottom=True, left=False, right=False, labelleft=True)
 
-    plt.savefig('results/fig.png', bbox_inches='tight')
+    plt.savefig('{}.png'.format(file_name), bbox_inches='tight')
     plt.show()
 
 
 if __name__ == '__main__':
-    plotting()
+    file = 'results/nominal_value.csv'
+    plotting(file)
+    file = 'results/present_value.csv'
+    plotting(file)

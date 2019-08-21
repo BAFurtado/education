@@ -134,9 +134,10 @@ def evolve(g, ins, std):
         # 3. Ifes collect payment
         [pay_tuition(i, year=y) for i in std if i.get_hei() is not None and i.get_age() > 23]
 
-        # Register ECR hitherto
-        print('ICL up to year {} at present value: ${:,.0f}'
-              .format(y, icl.calculate_npv(sum([i.get_icl(y) for i in ins]), y)))
+        # Register ICL hitherto
+        nominal_value = sum([i.get_icl(y) for i in ins])
+        print('ICL for year {}: nominal value ${:,.0f}. Total present value: ${:,.0f}'
+              .format(y, nominal_value, icl.calculate_npv(nominal_value, y)))
 
     return g, ins, std
 
@@ -146,4 +147,7 @@ if __name__ == '__main__':
     gov, insts = generate_agents(parameters.num_hei)
     gov, insts, stds = evolve(gov, insts, stds)
     output.produce_output(gov, insts, stds)
-    plotter.plotting()
+    file = 'results/nominal_value.csv'
+    plotter.plotting(file)
+    file = 'results/present_value.csv'
+    plotter.plotting(file)
