@@ -52,13 +52,13 @@ def register_values(value, year, name):
 
 def calculate_npv(value, year, add_data=True):
     """ Calculates the present value"""
-    file_name = 'results/nominal_value.csv'
+    file_name = 'results/nominal_value_{}.csv'.format(parameters.wage_rules)
     if add_data:
         register_values(value, year, file_name)
     data = pd.read_csv(file_name, sep=';')
     present_value = npv(parameters.interest_on_tuition, data.value)
     if add_data:
-        register_values(present_value, year, 'results/present_value.csv')
+        register_values(present_value, year, 'results/present_value_{}.csv'.format(parameters.wage_rules))
     return present_value
 
 

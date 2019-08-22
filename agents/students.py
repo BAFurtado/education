@@ -16,6 +16,8 @@ class Students:
         # Draw a number from Beta distribution to get a Gini distribution for Brazil
         # Multiply by the inverse of the average of the Beta distribution to have an average mean
         self.wage = 0
+        # For the dynamic case, the student needs to keep a wage_id at all times
+        self.wage_id = random.randrange(1, 10001)
 
     def collate(self):
         self.graduate = True
@@ -40,7 +42,7 @@ class Students:
         self.balance += amount
 
     def update_wage(self):
-        self.wage = generate_wage(self.get_age(), self.gender)
+        self.wage = generate_wage(self.get_age(), self.gender, self.wage_id)
 
     def pay_principal(self, amount):
         self.debt -= amount

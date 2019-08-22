@@ -7,6 +7,7 @@ import icl
 import output
 import parameters
 import plotter
+import os
 from agents.government import Government
 from agents.institutions import Universities
 from agents.students import Students
@@ -142,12 +143,16 @@ def evolve(g, ins, std):
     return g, ins, std
 
 
-if __name__ == '__main__':
+def main():
     stds = list()
     gov, insts = generate_agents(parameters.num_hei)
     gov, insts, stds = evolve(gov, insts, stds)
     output.produce_output(gov, insts, stds)
-    file = 'results/nominal_value.csv'
-    plotter.plotting(file)
-    file = 'results/present_value.csv'
-    plotter.plotting(file)
+    files = [f for f in os.listdir('results') if 'csv' in f]
+    for f in files:
+
+        plotter.plotting('results/' + f)
+
+
+if __name__ == '__main__':
+    main()

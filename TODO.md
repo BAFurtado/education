@@ -1,6 +1,4 @@
-Check students generation!!!
 0. Multiple runs
-1. Read alternative wage base
 2. Calculate ICL per coorte
 
 Phase2.

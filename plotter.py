@@ -31,7 +31,7 @@ def plotting(file_name):
 
 
 if __name__ == '__main__':
-    file = 'results/nominal_value.csv'
+    file = 'results/nominal_value_static.csv'
     plotting(file)
     file = 'results/present_value.csv'
     plotting(file)
