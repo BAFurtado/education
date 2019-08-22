@@ -154,8 +154,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # Overriding parameters
-    rules = ['static', 'dynamic']
-    for r in rules:
-        parameters.wage_rules = r
-        main()
+    main()
