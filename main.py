@@ -1,13 +1,13 @@
 """ This module contains the main sequence of events of the model """
 
 import logging
+import os
 import random
 
 import icl
 import output
 import parameters
 import plotter
-import os
 from agents.government import Government
 from agents.institutions import Universities
 from agents.students import Students
@@ -150,9 +150,12 @@ def main():
     output.produce_output(gov, insts, stds)
     files = [f for f in os.listdir('results') if 'csv' in f]
     for f in files:
-
         plotter.plotting('results/' + f)
 
 
 if __name__ == '__main__':
-    main()
+    # Overriding parameters
+    rules = ['static', 'dynamic']
+    for r in rules:
+        parameters.wage_rules = r
+        main()

@@ -11,7 +11,8 @@ def plotting(file_name):
 
     ax.bar(x='year', height='value', data=data)
 
-    ax.set(xlabel='Year', ylabel='ICL value', title='ICL gains at {} value'.format(file_name[8:-10]))
+    ax.set(xlabel='Year', ylabel='ICL value', title='ICL gains at {} value'
+           .format(file_name[8:15] + ' ' + file_name[22:-4]))
 
     ax.spines['top'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
@@ -26,12 +27,10 @@ def plotting(file_name):
     plt.tick_params(axis='both', which='both', bottom=False, top=False,
                     labelbottom=True, left=False, right=False, labelleft=True)
 
-    plt.savefig('{}.png'.format(file_name), bbox_inches='tight')
+    plt.savefig('{}.png'.format(file_name[:-4]), bbox_inches='tight')
     plt.show()
 
 
 if __name__ == '__main__':
     file = 'results/nominal_value_static.csv'
-    plotting(file)
-    file = 'results/present_value.csv'
     plotting(file)
