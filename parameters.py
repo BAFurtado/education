@@ -20,4 +20,4 @@ num_stds_per_hei = int((num_stds_per_year * grad_len) / num_hei)
 # If static, drawing from truncated normal from wages.py
 # If dynamic, drawing from 20,000 sample individuals read from female.csv and male.csv
 # Options: 'dynamic' or 'static'
-wage_rules = 'dynamic'
+wage_rules = 'static'
